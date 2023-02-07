@@ -15,6 +15,12 @@ export const getStaticProps = async () => {
           id
           slug
           title
+          featuredImage {
+            node {
+              guid
+            }
+          }
+          excerpt
         }
       }
     }
@@ -233,111 +239,35 @@ export default function Home({ posts }) {
             </div>
           </div>
 
-          <ul className="blog-content" data-sr-id="8">
-            <li id="post-296">
-              <p className="blog-image">
-                <a href="https://arimura-ryoma.com/blog/296/">
-                  <img
-                    width="5507"
-                    height="3098"
-                    src="https://arimura-ryoma.com/wp-content/uploads/2020/01/emile-perron-xrVDYZRGdw4-unsplash.jpg"
-                    className="attachment- size- wp-post-image"
-                    alt=""
-                    loading="lazy"
-                    sizes="(max-width: 5507px) 100vw, 5507px"
-                  />
-                </a>
-              </p>
-              <dl className="notosans">
-                <dt>
-                  <a href="https://arimura-ryoma.com/blog/296/">
-                    CSSで背景画像と背景色を重ねる方法
-                  </a>
-                </dt>
-                <dd>
-                  <a href="https://arimura-ryoma.com/blog/296/">
-                    <p>
-                      CSSで背景画像と背景色を重ねる方法
-                      先日コーディングをしていて、下の画像のような背景画像の上に背景色を重ねる
+          <ul className="blog-content">
+            {posts.slice(0, 3).map((post: any) => {
+              const { slug, title, excerpt, featuredImage } = post;
+              const img_url = featuredImage.node.guid;
+              return (
+                <>
+                  <li>
+                    <p className="blog-image">
+                      <img src={img_url} alt="" />
                     </p>
-                  </a>
-                </dd>
-              </dl>
-              <p className="viewmore">
-                <a href="https://arimura-ryoma.com/blog/296/">view more</a>
-              </p>
-            </li>
-            <li id="post-294">
-              <p className="blog-image">
-                <a href="https://arimura-ryoma.com/blog/294/">
-                  <img
-                    width="1348"
-                    height="668"
-                    src="https://arimura-ryoma.com/wp-content/uploads/2020/01/fontawesome-top.jpg"
-                    className="attachment- size- wp-post-image"
-                    alt=""
-                    loading="lazy"
-                    sizes="(max-width: 1348px) 100vw, 1348px"
-                  />
-                </a>
-              </p>
-              <dl className="notosans">
-                <dt>
-                  <a href="https://arimura-ryoma.com/blog/294/">
-                    Font Awesomeの使い方まとめ
-                  </a>
-                </dt>
-                <dd>
-                  <a href="https://arimura-ryoma.com/blog/294/">
-                    <p>
-                      Font Awesomeの使い方まとめ
-                      webサイトを制作しているとSNSサイトのロゴアイコンが使いたい時があ
+                    <dl className="notosans">
+                      <dt>{title}</dt>
+                      <dd dangerouslySetInnerHTML={{ __html: excerpt }}></dd>
+                    </dl>
+                    <p className="viewmore">
+                      <Link key={slug} href={`/blog/${slug}`}>
+                        view more
+                      </Link>
                     </p>
-                  </a>
-                </dd>
-              </dl>
-              <p className="viewmore">
-                <a href="https://arimura-ryoma.com/blog/294/">view more</a>
-              </p>
-            </li>
-            <li id="post-292">
-              <p className="blog-image">
-                <a href="https://arimura-ryoma.com/blog/292/">
-                  <img
-                    width="600"
-                    height="316"
-                    src="https://arimura-ryoma.com/wp-content/uploads/2020/01/20130703.jpg"
-                    className="attachment- size- wp-post-image"
-                    alt=""
-                    loading="lazy"
-                    sizes="(max-width: 600px) 100vw, 600px"
-                  />
-                </a>
-              </p>
-              <dl className="notosans">
-                <dt>
-                  <a href="https://arimura-ryoma.com/blog/292/">
-                    画像圧縮はTinyPNGがおすすめ
-                  </a>
-                </dt>
-                <dd>
-                  <a href="https://arimura-ryoma.com/blog/292/">
-                    <p>
-                      画像圧縮はTinyPNGがおすすめ
-                      画像サイズが大きいとサイトの読み込み速度が遅くなります。そこで画像を圧縮す
-                    </p>
-                  </a>
-                </dd>
-              </dl>
-              <p className="viewmore">
-                <a href="https://arimura-ryoma.com/blog/292/">view more</a>
-              </p>
-            </li>
+                  </li>
+                </>
+              );
+            })}
           </ul>
+
           <p className="button-container robot" data-sr-id="9">
-            <a href="https://arimura-ryoma.com/blog" className="button">
+            <Link href="/blog" className="button">
               MORE
-            </a>
+            </Link>
           </p>
         </section>
 
